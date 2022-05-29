@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app_ui/config/app_assets.dart';
 import 'package:movie_app_ui/config/app_color.dart';
@@ -21,17 +22,44 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HomeHeader(size: size),
             const SizedBox(height: 20,),
             SearchBar(size: size),
             const SizedBox(height: 20,),
             CategoryBar(size: size),
+            buildTitle('Now Playing'),
+            CarouselSlider(
+              items: movies.map((e) => Builder(builder: (context) {
+                return Container(
+                  width: size.width,
+                  padding: EdgeInsets.only(left: 10,bottom: 24),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(e.backgroundImg),
+                    ),
+                  ),
+                );
+              })).toList(),
+              options: CarouselOptions(
+                autoPlay: true,
+                enlargeCenterPage: true,
+              ),
+            ),
           ],
         ),
       ),
       
     );
+  }
+
+  Padding buildTitle(String content) {
+    return Padding(padding: EdgeInsets.symmetric(horizontal: 24,vertical: 24),
+          child: Text(content,style: TxtStyle.heading2,),
+          );
   }
 }
 

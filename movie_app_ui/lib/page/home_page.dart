@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movie_app_ui/config/app_assets.dart';
 import 'package:movie_app_ui/config/app_color.dart';
 import 'package:movie_app_ui/config/text_style.dart';
@@ -7,6 +8,8 @@ import 'package:movie_app_ui/model/movie.dart';
 import 'package:movie_app_ui/widget/home/category_bar.dart';
 import 'package:movie_app_ui/widget/home/home_header.dart';
 import 'package:movie_app_ui/widget/home/search_bar.dart';
+import 'package:movie_app_ui/widget/home/slider.dart';
+import 'package:movie_app_ui/widget/star.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);
@@ -30,25 +33,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20,),
             CategoryBar(size: size),
             buildTitle('Now Playing'),
-            CarouselSlider(
-              items: movies.map((e) => Builder(builder: (context) {
-                return Container(
-                  width: size.width,
-                  padding: EdgeInsets.only(left: 10,bottom: 24),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(e.backgroundImg),
-                    ),
-                  ),
-                );
-              })).toList(),
-              options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-              ),
-            ),
+            SliderBar(size: size),
           ],
         ),
       ),

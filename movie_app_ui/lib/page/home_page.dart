@@ -6,7 +6,9 @@ import 'package:movie_app_ui/config/app_color.dart';
 import 'package:movie_app_ui/config/text_style.dart';
 import 'package:movie_app_ui/model/movie.dart';
 import 'package:movie_app_ui/widget/home/category_bar.dart';
+import 'package:movie_app_ui/widget/home/coming_soon.dart';
 import 'package:movie_app_ui/widget/home/home_header.dart';
+import 'package:movie_app_ui/widget/home/promo.dart';
 import 'package:movie_app_ui/widget/home/search_bar.dart';
 import 'package:movie_app_ui/widget/home/slider.dart';
 import 'package:movie_app_ui/widget/star.dart';
@@ -34,6 +36,12 @@ class _HomePageState extends State<HomePage> {
             CategoryBar(size: size),
             buildTitle('Now Playing'),
             SliderBar(size: size),
+            buildTitle('Coming Soon'),
+            ComingSoon(),
+            buildTitle('Promo'),
+            Promo(size: size),
+            Promo(size: size),
+            Promo(size: size),
           ],
         ),
       ),

@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movie_app_ui/config/app_assets.dart';
 import 'package:movie_app_ui/config/app_color.dart';
 import 'package:movie_app_ui/config/app_constant.dart';
 import 'package:movie_app_ui/config/text_style.dart';
+import 'package:movie_app_ui/model/movie.dart';
 import 'package:movie_app_ui/widget/detail/arrow_back.dart';
 import 'package:movie_app_ui/widget/detail/background.dart';
+import 'package:movie_app_ui/widget/detail/cast_bar.dart';
+import 'package:movie_app_ui/widget/detail/caster_item.dart';
+import 'package:movie_app_ui/widget/detail/trailer_bar.dart';
 import 'package:movie_app_ui/widget/star.dart';
 
 class MovieDetail extends StatefulWidget {
@@ -116,16 +118,21 @@ class _MovieDetailState extends State<MovieDetail> with SingleTickerProviderStat
                     child: TabBarView(
                       controller: _tabcontroller,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            buildTitle('Synopsis'),
-                            Padding(padding: EdgeInsets.only(left: 24,),
-                            child: Text(AppConstant.exampleContent,style: TxtStyle.heading4Light,),
-                            ),
-                            buildTitle('Cast & Crew'),
-                            buildTitle('Trailer and Song'),
-                          ],
+                        SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              buildTitle('Synopsis'),
+                              Padding(padding: EdgeInsets.only(left: 24,),
+                              child: Text(AppConstant.exampleContent,style: TxtStyle.heading4Light,),
+                              ),
+                              buildTitle('Cast & Crew'),
+                              CastBar(size: size),
+                              buildTitle('Trailer and Song'),
+                              TrailerBar(),
+                              
+                            ],
+                          ),
                         ),
                         Container(
                           child: Text('Review Page'),

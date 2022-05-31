@@ -52,10 +52,10 @@ class TxtStyle {
       color: DarkTheme.white);
 
   static const heading4Light = TextStyle(
-      fontWeight: FontWeight.w200,
+      // fontWeight: FontWeight.w300,
       fontSize: 16,
       height: 1.2,
-      color: DarkTheme.white,
+      color: Colors.grey,
       decoration: TextDecoration.none);
 }
 

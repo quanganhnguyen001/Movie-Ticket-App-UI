@@ -4,6 +4,7 @@ import 'package:movie_app_ui/config/app_color.dart';
 import 'package:movie_app_ui/config/text_style.dart';
 import 'package:movie_app_ui/model/movie.dart';
 import 'package:movie_app_ui/page/detail_page.dart';
+import 'package:movie_app_ui/page/select_cinema_page.dart';
 import 'package:movie_app_ui/widget/star.dart';
 
 class SliderBar extends StatelessWidget {
@@ -20,7 +21,7 @@ class SliderBar extends StatelessWidget {
       items: movies.map((e) => Builder(builder: (context) {
         return GestureDetector(
           onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MovieDetail()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectCinema()));
           },
           child: Stack(
             children: [

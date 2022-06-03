@@ -4,6 +4,10 @@ import 'package:movie_app_ui/config/app_assets.dart';
 import 'package:movie_app_ui/config/app_color.dart';
 import 'package:movie_app_ui/config/text_style.dart';
 import 'package:movie_app_ui/model/movie.dart';
+import 'package:movie_app_ui/page/select_seat_page.dart';
+import 'package:movie_app_ui/widget/selectCinema/custom_header.dart';
+import 'package:movie_app_ui/widget/selectCinema/next_button.dart';
+
 
 class SelectCinema extends StatelessWidget {
   const SelectCinema({ Key? key }) : super(key: key);
@@ -12,109 +16,93 @@ class SelectCinema extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-              height: size.height / 10,
-              child: Center(
-                child: Text('Ralph Break The\nInternet',style: TxtStyle.heading1,textAlign: TextAlign.center,),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 16,top: 4),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: FaIcon(
-                  FontAwesomeIcons.arrowLeft,
-                  color: DarkTheme.white,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CustomHeader(size: size, content: 'Ralph Breaks The\nInternet',),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+                height: size.height / 14,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: DarkTheme.white),
                 ),
-              ),
-            ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 16,horizontal: 24),
-              height: size.height / 14,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: DarkTheme.white),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintStyle: TxtStyle.heading4,
-                        hintText: 'Select Your Contry',
-                        icon: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: ImageIcon(
-                            AssetImage(AssetPath.iconLocation),
-                            color: DarkTheme.white,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintStyle: TxtStyle.heading4,
+                          hintText: 'Select Your Contry',
+                          icon: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: ImageIcon(
+                              AssetImage(AssetPath.iconLocation),
+                              color: DarkTheme.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 36,
-                      color: DarkTheme.white,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 36,
+                        color: DarkTheme.white,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              buildTitle('Choose Date'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: 
+                    days.map((e) => Builder(builder: (context){
+                      return buildDate(size, e);
+                    },)).toList(),
+                ),
+              ),
+              buildTitle('Central Park CGV'),
+              Container(
+                margin: EdgeInsets.only(top: 8,bottom: 16),
+                height: size.height / 15,
+                child: ListView.builder(
+                  itemBuilder: (context, index) => buildTime(size, index, timeStates_1),
+                  itemCount: times.length,
+                  scrollDirection: Axis.horizontal,
                   ),
-                ],
-              ),
-            ),
-            buildTitle('Choose Date'),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: 
-                  days.map((e) => Builder(builder: (context){
-                    return buildDate(size, e);
-                  },)).toList(),
-              ),
-            ),
-            buildTitle('Central Park CGV'),
-            Container(
-              margin: EdgeInsets.only(top: 8,bottom: 16),
-              height: size.height / 15,
-              child: ListView.builder(
-                itemBuilder: (context, index) => buildTime(size, index, timeStates_1),
-                itemCount: times.length,
-                scrollDirection: Axis.horizontal,
                 ),
-              ),
-            buildTitle('Kim Dong CGV'),
-            Container(
-              margin: EdgeInsets.only(top: 8,bottom: 16),
-              height: size.height / 15,
-              child: ListView.builder(
-                itemBuilder: (context, index) => buildTime(size, index, timeStates_2),
-                itemCount: times.length,
-                scrollDirection: Axis.horizontal,
+              buildTitle('Kim Dong CGV'),
+              Container(
+                margin: EdgeInsets.only(top: 8,bottom: 16),
+                height: size.height / 15,
+                child: ListView.builder(
+                  itemBuilder: (context, index) => buildTime(size, index, timeStates_2),
+                  itemCount: times.length,
+                  scrollDirection: Axis.horizontal,
+                  ),
                 ),
-              ),
-            buildTitle('American CGV'),
-            Container(
-              margin: EdgeInsets.only(top: 8,bottom: 16),
-              height: size.height / 15,
-              child: ListView.builder(
-                itemBuilder: (context, index) => buildTime(size, index, timeStates_3),
-                itemCount: times.length,
-                scrollDirection: Axis.horizontal,
+              buildTitle('American CGV'),
+              Container(
+                margin: EdgeInsets.only(top: 8,bottom: 16),
+                height: size.height / 15,
+                child: ListView.builder(
+                  itemBuilder: (context, index) => buildTime(size, index, timeStates_3),
+                  itemCount: times.length,
+                  scrollDirection: Axis.horizontal,
+                  ),
                 ),
-              ),
-          ],
+                NextButton(press: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectSeat()));
+                },),
+            ],
+          ),
         ),
       ),
     );
@@ -175,3 +163,4 @@ class SelectCinema extends StatelessWidget {
           );
   }
 }
+

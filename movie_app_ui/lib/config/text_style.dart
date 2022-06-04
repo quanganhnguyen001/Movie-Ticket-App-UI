@@ -37,10 +37,10 @@ class TxtStyle {
       color: DarkTheme.white);
 
   static const heading3Light = TextStyle(
-      fontWeight: FontWeight.w200,
+      // fontWeight: FontWeight.w200,
       fontSize: 20,
       height: 1.2,
-      color: DarkTheme.white,
+      color: Colors.grey,
       decoration: TextDecoration.none);
 
   //==========Heading 4=============

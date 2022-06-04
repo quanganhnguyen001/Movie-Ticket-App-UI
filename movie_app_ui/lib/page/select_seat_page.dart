@@ -1,48 +1,176 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:movie_app_ui/config/app_assets.dart';
 import 'package:movie_app_ui/config/app_color.dart';
 import 'package:movie_app_ui/config/text_style.dart';
+import 'package:movie_app_ui/model/movie.dart';
+import 'package:movie_app_ui/page/check_out_page.dart';
+import 'package:movie_app_ui/widget/selectCinema/arrow_back_button.dart';
+import 'package:movie_app_ui/widget/selectCinema/movie_title.dart';
 
 class SelectSeat extends StatelessWidget {
-  const SelectSeat({ Key? key }) : super(key: key);
+  const SelectSeat({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ArrowBackButton(),
-            Container(
-              margin: EdgeInsets.only(left: 24,top: 8),
-              child: Text('Ralph Breaks the Internet',style: TxtStyle.heading2,),
+            const ArrowBackButton(),
+            const MovieTitle(),
+            // seat status bar
+            Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildSeatStatusBar(
+                      color: DarkTheme.darkBackground, content: 'Available'),
+                  buildSeatStatusBar(
+                      color: DarkTheme.greyBackground, content: 'Booked'),
+                  buildSeatStatusBar(
+                      color: DarkTheme.blueMain, content: 'Your Seat'),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: seatRow
+                      .map((row) => Builder(builder: (context) {
+                            return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: seatNumber.map((number) {
+                                  return ToggleButton(
+                                    child: Text(
+                                      row + number,
+                                      style: TxtStyle.heading3Medium,
+                                    ),
+                                  );
+                                }).toList());
+                          }))
+                      .toList(),
+                ),
+              ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 4,left: 24),
-              child: Text('FX Sudirman XXI',style: TxtStyle.heading3Light,),
+              alignment: Alignment.center,
+              child: const Text(
+                'Screen',
+                style: TxtStyle.heading4,
+              ),
             ),
+            Image.asset(AssetPath.screenx2),
+            Padding(
+              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Total Price',
+                        style: TxtStyle.heading4Light,
+                      ),
+                      Text(
+                        '150.000 VND',
+                        style: TxtStyle.heading3Medium,
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CheckOutPage()));
+                    },
+                    child: Container(
+                      height: size.height / 16,
+                      width: size.width / 3,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: DarkTheme.blueMain,
+                          borderRadius: BorderRadius.circular(16)),
+                      child: const Text(
+                        'Book Ticket',
+                        style: TxtStyle.heading3Medium,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
+
+  Row buildSeatStatusBar({required Color color, required String content}) {
+    return Row(
+      children: [
+        Container(
+          height: 24,
+          width: 24,
+          decoration: BoxDecoration(
+              color: color, borderRadius: BorderRadius.circular(4)),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(
+            content,
+            style: TxtStyle.heading4,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-class ArrowBackButton extends StatelessWidget {
-  const ArrowBackButton({
-    Key? key,
-  }) : super(key: key);
+class ToggleButton extends StatefulWidget {
+  const ToggleButton({Key? key, required this.child}) : super(key: key);
+  final Widget child;
+
+  @override
+  State<ToggleButton> createState() => _ToggleButtonState();
+}
+
+class _ToggleButtonState extends State<ToggleButton> {
+  TicketStates _ticketStates = TicketStates.idle;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 16,top: 4),
-      child: IconButton(
-        icon: FaIcon(FontAwesomeIcons.arrowLeft,color: DarkTheme.white,),
-        onPressed: (){
-          Navigator.of(context).pop();
-        },
+    return SizedBox(
+      height: 48,
+      width: 48,
+      child: Expanded(
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _ticketStates = _ticketStates == TicketStates.idle
+                  ? TicketStates.active
+                  : TicketStates.idle;
+            });
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: _ticketStates == TicketStates.idle
+                    ? DarkTheme.greyBackground
+                    : DarkTheme.blueMain),
+            child: widget.child,
+          ),
+        ),
       ),
     );
   }
